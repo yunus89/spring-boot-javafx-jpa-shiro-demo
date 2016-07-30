@@ -1,6 +1,7 @@
 package demo.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -27,16 +28,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "users")
 public class User implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @NotEmpty(message = "username is required")
     private String username;
     @NotEmpty(message = "password is required.")
     private String password;    
-    @ManyToMany(fetch=FetchType.EAGER)
+    @ManyToMany( cascade = CascadeType.MERGE, fetch=FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
             @JoinColumn(name = "role_id") })
-    private List<Role> roleList;
+    private List<Role> roleList  = new ArrayList<>();
     
     @Transient
     private Set<String> rolesName;

@@ -23,13 +23,13 @@ import javax.persistence.Transient;
 @Table(name="roles")
 public class Role implements Serializable{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String rolename;
-    @OneToMany(mappedBy = "role", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Permission> permissionList;
+    @OneToMany(mappedBy = "role", fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    private List<Permission> permissionList = new ArrayList<>();
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "roleList")
-    private List<User> userList;
+    private List<User> userList = new ArrayList<>();
     
     @Transient
     private Set<String> permissionsName;

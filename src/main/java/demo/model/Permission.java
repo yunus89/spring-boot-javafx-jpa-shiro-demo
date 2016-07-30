@@ -23,7 +23,7 @@ public class Permission {
     private Integer id;
     private String permissionname;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinTable( name = "role_permission", 
         joinColumns =           @JoinColumn(name = "permission_id"), 
         inverseJoinColumns =    @JoinColumn(name = "role_id"))
