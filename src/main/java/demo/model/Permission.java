@@ -1,5 +1,6 @@
 package demo.model;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,17 +18,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="permissions")
-public class Permission {
+public class Permission implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String permissionname;
-
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinTable( name = "role_permission", 
-        joinColumns =           @JoinColumn(name = "permission_id"), 
-        inverseJoinColumns =    @JoinColumn(name = "role_id"))
-    private Role role;
 
     public Integer getId() {
         return id;
@@ -44,14 +39,4 @@ public class Permission {
     public void setPermissionname(String permissionname) {
         this.permissionname = permissionname;
     }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-    
-    
 }

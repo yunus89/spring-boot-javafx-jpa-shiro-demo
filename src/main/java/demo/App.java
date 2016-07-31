@@ -63,7 +63,9 @@ public class App extends AbstractJavaFxApplicationSupport {
         final Role roleAdmin = new Role();
         roleAdmin.setRolename("ADMIN");
         roleAdmin.getPermissionList().add(p1);
+        System.out.println("roleAdmin.getId() 1: "+roleAdmin.getId());
         roleService.addRole(roleAdmin);
+        System.out.println("roleAdmin.getId() 2: "+roleAdmin.getId());
         // define user
         final User user = new User();
         user.setUsername("yunus");

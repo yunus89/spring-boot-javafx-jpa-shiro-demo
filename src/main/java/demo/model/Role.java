@@ -26,8 +26,12 @@ public class Role implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String rolename;
-    @OneToMany(mappedBy = "role", fetch=FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OneToMany
+    @JoinTable( name = "role_permission", 
+        joinColumns =           @JoinColumn(name = "role_id", referencedColumnName = "id"), 
+        inverseJoinColumns =    @JoinColumn(name = "permission_id", referencedColumnName = "id"))
     private List<Permission> permissionList = new ArrayList<>();
+    
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "roleList")
     private List<User> userList = new ArrayList<>();
     
