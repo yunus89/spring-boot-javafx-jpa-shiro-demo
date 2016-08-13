@@ -13,6 +13,9 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.credential.AllowAllCredentialsMatcher;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.authz.permission.WildcardPermission;
@@ -25,6 +28,17 @@ public class CustomSecurityRealm extends AuthorizingRealm {
     @Autowired
     private UserManagerService userManager;
 
+    @Autowired
+    private DefaultPasswordService passwordService;
+
+    public CustomSecurityRealm() {
+        this(new AllowAllCredentialsMatcher());
+    }
+
+    public CustomSecurityRealm(final CredentialsMatcher matcher) {
+        super(matcher);
+    }
+    
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 
@@ -53,7 +67,7 @@ public class CustomSecurityRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         UsernamePasswordToken upat = (UsernamePasswordToken) token;
         User user = userManager.findByUsername(upat.getUsername());
-        if(user != null && user.getPassword().equals(new String(upat.getPassword()))) {
+        if(user != null && passwordService.passwordsMatch(upat.getPassword(), user.getPassword())) {
             return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
         }
         else {

@@ -81,30 +81,31 @@ public class App extends AbstractJavaFxApplicationSupport {
         User u = userManagerService.addUser(user);
         
         Subject currentUser = SecurityUtils.getSubject();
-            UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(), "123qwe".toCharArray());
-            try{
-                if (!currentUser.isAuthenticated()) {
-                    System.out.println("Current user is not authenticated.");
+        UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(), "123qwe".toCharArray());
+        try{
+            if (!currentUser.isAuthenticated()) {
+                System.out.println("Current user is not authenticated.");
 
-                    try{
-                        currentUser.login(token);
-                    } catch (UnknownAccountException uae) { 
-                        System.out.println(uae.getMessage());
-                    } catch (IncorrectCredentialsException iae) { 
-                        System.out.println(iae.getMessage());
-                    } catch (LockedAccountException lae) { 
-                        System.out.println(lae.getMessage());
-                    } catch (AuthenticationException ae) {   
-                        System.out.println(ae.getMessage());
-                    } catch (Exception e) {   
-                        System.out.println(e.getStackTrace());
-                    }
-                }else{
-                    System.out.println("There is a user who is already authenticated...");
+                try{
+                    currentUser.login(token);
+                    System.out.println("Authenticated: "+currentUser.isAuthenticated());
+                } catch (UnknownAccountException uae) { 
+                    System.out.println(uae.getMessage());
+                } catch (IncorrectCredentialsException iae) { 
+                    System.out.println(iae.getMessage());
+                } catch (LockedAccountException lae) { 
+                    System.out.println(lae.getMessage());
+                } catch (AuthenticationException ae) {   
+                    System.out.println(ae.getMessage());
+                } catch (Exception e) {   
+                    System.out.println(e.getStackTrace());
                 }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+            }else{
+                System.out.println("There is a user who is already authenticated...");
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
