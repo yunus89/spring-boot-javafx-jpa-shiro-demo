@@ -23,7 +23,14 @@ import demo.services.RoleService;
 import demo.services.UserManagerService;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
+import org.apache.shiro.subject.Subject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,7 +78,33 @@ public class App extends AbstractJavaFxApplicationSupport {
         user.setUsername("yunus");
         user.setPassword(passwordService.encryptPassword("123qwe"));
         user.getRoleList().add(roleAdmin);
-        userManagerService.addUser(user);
+        User u = userManagerService.addUser(user);
+        
+        Subject currentUser = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(), "123qwe".toCharArray());
+            try{
+                if (!currentUser.isAuthenticated()) {
+                    System.out.println("Current user is not authenticated.");
+
+                    try{
+                        currentUser.login(token);
+                    } catch (UnknownAccountException uae) { 
+                        System.out.println(uae.getMessage());
+                    } catch (IncorrectCredentialsException iae) { 
+                        System.out.println(iae.getMessage());
+                    } catch (LockedAccountException lae) { 
+                        System.out.println(lae.getMessage());
+                    } catch (AuthenticationException ae) {   
+                        System.out.println(ae.getMessage());
+                    } catch (Exception e) {   
+                        System.out.println(e.getStackTrace());
+                    }
+                }else{
+                    System.out.println("There is a user who is already authenticated...");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
     }
 
     public static void main(String[] args) {
