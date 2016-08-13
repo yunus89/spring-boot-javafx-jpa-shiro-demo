@@ -2,4 +2,3 @@
 
 This repo demostrate how to configure Apache Shiro in spring boot standalone application with spring data jpa
 
-This is work in progress...
