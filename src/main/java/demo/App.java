@@ -75,8 +75,8 @@ public class App extends AbstractJavaFxApplicationSupport {
         System.out.println("roleAdmin.getId() 2: "+roleAdmin.getId());
         // define user
         final User user = new User();
-        user.setUsername("yunus");
-        user.setPassword(passwordService.encryptPassword("123qwe"));
+        user.setUsername("admin");
+        user.setPassword(passwordService.encryptPassword("admin"));
         user.getRoleList().add(roleAdmin);
         User u = userManagerService.addUser(user);
         

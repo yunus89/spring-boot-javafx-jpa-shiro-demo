@@ -1,0 +1,1 @@
+INSERT INTO users (username, password) VALUES ('admin', '$shiro1$SHA-256$500000$FkZcH5hP9oiYkP6UBK/84Q==$RHFwVRYTKNnCpKtlOu3Nfts8I+3Azfw5iUWokmW0dgI=')
