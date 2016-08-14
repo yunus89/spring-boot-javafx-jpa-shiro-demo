@@ -60,28 +60,28 @@ public class App extends AbstractJavaFxApplicationSupport {
     @Override
     public void start(Stage stage) throws Exception {
          // define permissions
-        final Permission p1 = new Permission();
-        p1.setPermissionname("VIEW_ALL_USERS");
-        permissionService.addPermission(p1);
-        final Permission p2 = new Permission();
-        p2.setPermissionname("DO_SOMETHING");
-        permissionService.addPermission(p2);
-        // define roles
-        final Role roleAdmin = new Role();
-        roleAdmin.setRolename("ADMIN");
-        roleAdmin.getPermissionList().add(p1);
-        System.out.println("roleAdmin.getId() 1: "+roleAdmin.getId());
-        roleService.addRole(roleAdmin);
-        System.out.println("roleAdmin.getId() 2: "+roleAdmin.getId());
-        // define user
-        final User user = new User();
-        user.setUsername("admin");
-        user.setPassword(passwordService.encryptPassword("admin"));
-        user.getRoleList().add(roleAdmin);
-        User u = userManagerService.addUser(user);
+//        final Permission p1 = new Permission();
+//        p1.setPermissionname("VIEW_ALL_USERS");
+//        permissionService.addPermission(p1);
+//        final Permission p2 = new Permission();
+//        p2.setPermissionname("DO_SOMETHING");
+//        permissionService.addPermission(p2);
+//        // define roles
+//        final Role roleAdmin = new Role();
+//        roleAdmin.setRolename("ADMIN");
+//        roleAdmin.getPermissionList().add(p1);
+//        System.out.println("roleAdmin.getId() 1: "+roleAdmin.getId());
+//        roleService.addRole(roleAdmin);
+//        System.out.println("roleAdmin.getId() 2: "+roleAdmin.getId());
+//        // define user
+//        final User user = new User();
+//        user.setUsername("admin");
+//        user.setPassword(passwordService.encryptPassword("admin"));
+//        user.getRoleList().add(roleAdmin);
+//        User u = userManagerService.addUser(user);
         
         Subject currentUser = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(u.getUsername(), "123qwe".toCharArray());
+        UsernamePasswordToken token = new UsernamePasswordToken("admin", "admin".toCharArray());
         try{
             if (!currentUser.isAuthenticated()) {
                 System.out.println("Current user is not authenticated.");
